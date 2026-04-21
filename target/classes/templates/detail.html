@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${flower.name} + ' - Tiệm Hoa'">Chi Tiết Hoa</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">🌸 FlowerShop</div>
+    <nav class="nav">
+        <a href="/">Trang Chủ</a>
+        <a href="/cart" class="cart-link">
+            🛒 Giỏ Hàng
+            <span class="cart-badge" th:text="${cartCount}">0</span>
+        </a>
+    </nav>
+</header>
+
+<main class="main">
+
+    <!-- Nút quay lại trang chủ -->
+    <a href="/" class="btn-back">← Quay lại</a>
+
+    <!-- CHI TIẾT HOA -->
+    <div class="detail-container">
+
+        <!-- Ảnh hoa -->
+        <div class="detail-img-wrap">
+            <img th:src="${flower.imageUrl}" th:alt="${flower.name}" class="detail-img">
+        </div>
+
+        <!-- Thông tin hoa -->
+        <div class="detail-info">
+            <h1 th:text="${flower.name}">Tên Hoa</h1>
+
+            <p class="detail-species">
+                🌿 Loài: <span th:text="${flower.species}">Loài hoa</span>
+            </p>
+
+            <p class="detail-color">
+                🎨 Màu sắc: <span th:text="${flower.color}">Màu</span>
+            </p>
+
+            <p class="detail-price" th:text="${#numbers.formatInteger(flower.price, 0, 'COMMA') + ' VNĐ'}">
+                0 VNĐ
+            </p>
+
+            <p class="detail-stock" th:text="'Còn lại: ' + ${flower.stockQuantity} + ' bông'">
+                Còn lại: 0 bông
+            </p>
+
+            <p class="detail-desc" th:text="${flower.description}">
+                Mô tả hoa...
+            </p>
+
+            <!-- Form thêm vào giỏ với chọn số lượng -->
+            <form action="/cart/add" method="POST" class="detail-form">
+                <input type="hidden" name="flowerId" th:value="${flower.id}">
+                <div class="quantity-wrap">
+                    <label>Số lượng:</label>
+                    <input type="number" name="quantity" value="1" min="1"
+                           th:max="${flower.stockQuantity}" class="quantity-input">
+                </div>
+                <button type="submit" class="btn-cart">🛒 Thêm vào giỏ</button>
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+<footer class="footer">
+    <p>© 2026 Tiệm Hoa Yêu Thương 🌸</p>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>
